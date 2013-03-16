@@ -37,9 +37,23 @@ var kittenGenerator = {
 // Run our kitten generation script as soon as the document's DOM is ready.
 document.addEventListener('DOMContentLoaded', function () {
   //kittenGenerator.requestKittens();
-  chrome.tts.speak(
-    'Speak this first.');
-  chrome.tts.speak(
-    'Speak this next, when the first sentence is done.', {'enqueue': true});
+
   console.log(chrome);
+  //window.setTimeout(function(){ console.log(window.getSelection()); },500);
+
+  chrome.tabs.getSelected(null,function(selectedTab){
+    console.log(selectedTab);
+  });
+
+  chrome.extension.onMessage.addListener(
+        function(request, sender, sendResponse){
+        alert(request);
+
+//chrome.pageAction.show(sender.tab.id);
+        sendResponse('Found!');
+  });
+  /*chrome.tts.speak(
+    'Hello.');
+  chrome.tts.speak(
+    'Chicken?', {'enqueue': true});*/
 });
