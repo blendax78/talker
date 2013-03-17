@@ -1,45 +1,51 @@
+/*
+--Taken from Catch Extension
+    First we use executeScript to put the our script on the page. All the
+    script (content_script.js) does is add a listener for sendRequest; we
+    need this in order to communicate between our popup and the page we want
+    the text from.
 
-var QUERY = 'kittens';
+    One that's set up, we run chrome.tabs.getSelected with a callback that
+    sends the request for the selection to the current tab, itself with a
+    callback that runs setupNoteForm().
 
-var kittenGenerator = {
-  searchOnFlickr_: 'https://secure.flickr.com/services/rest/?' +
-      'method=flickr.photos.search&' +
-      'api_key=90485e931f687a9b9c2a66bf58a3861a&' +
-      'text=' + encodeURIComponent(QUERY) + '&' +
-      'safe_search=1&' +
-      'content_type=1&' +
-      'sort=interestingness-desc&' +
-      'per_page=20',
-  requestKittens: function() {
-    var req = new XMLHttpRequest();
-    req.open("GET", this.searchOnFlickr_, true);
-    req.onload = this.showPhotos_.bind(this);
-    req.send(null);
-  },
-  showPhotos_: function (e) {
-    var kittens = e.target.responseXML.querySelectorAll('photo');
-    for (var i = 0; i < kittens.length; i++) {
-      var img = document.createElement('img');
-      img.src = this.constructKittenURL_(kittens[i]);
-      img.setAttribute('alt', kittens[i].getAttribute('title'));
-      document.body.appendChild(img);
-    }
-  },
-  constructKittenURL_: function (photo) {
-    return "http://farm" + photo.getAttribute("farm") +
-        ".static.flickr.com/" + photo.getAttribute("server") +
-        "/" + photo.getAttribute("id") +
-        "_" + photo.getAttribute("secret") +
-        "_s.jpg";
-  }
-};
+*/
 
-// Run our kitten generation script as soon as the document's DOM is ready.
 document.addEventListener('DOMContentLoaded', function () {
-  //kittenGenerator.requestKittens();
-  chrome.tts.speak(
-    'Speak this first.');
-  chrome.tts.speak(
-    'Speak this next, when the first sentence is done.', {'enqueue': true});
-  console.log(chrome);
+  if (typeof(chrome.extension.lastError) == "undefined") {
+      getSel();
+  } else {
+      var p = ["<p>This extension cannot be used in ",
+          "chrome:// or file:// locations.</p>"].join("");
+      $("body").append($(p));
+  }
+
+  chrome.tabs.executeScript(null, {"file": "contentscript.js"}, wrap);
+  function getSel() {
+      function cb(note) { setupNoteForm(note, userdata); };
+      chrome.tabs.getSelected(null, function (tab) {
+          chrome.tabs.sendRequest(tab.id, {"method": "getSelection"}, speak);
+      });
+  }
+
+  function wrap() {
+      if (typeof(chrome.extension.lastError) == "undefined") {
+          getSel();
+      } else {
+          var p = ["<p>This extension cannot be used in ",
+              "chrome:// or file:// locations.</p>"].join("");
+          $("body").append($(p));
+      }
+  }
+
+  function speak(textObj) {
+    chrome.tts.speak(textObj.text);
+    $('#stopBtn').click(function(e){
+      console.log(e);
+      chrome.tts.stop();
+    });
+  }
+
 });
+
+

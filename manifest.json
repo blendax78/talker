@@ -6,10 +6,20 @@
   "version": "0.1",
 
   "permissions": [
-    "tts"
+
+    "tts",
+    "tabs",
+    "http://*/*",
+    "https://*/*"
   ],
+
+
   "browser_action": {
-    "default_icon": "icon.png",
+    
+    "icon": { "16": "speak16.png",
+           "48": "speak48.png",
+          "128": "speak128.png" },
+    "default_icon": "speak48.png",
     "default_popup": "popup.html"
   }
 }

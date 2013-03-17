@@ -1,32 +1,28 @@
 <!doctype html>
 <html>
   <head>
-    <title>Getting Started Extension's Popup</title>
+    <title>Talker</title>
+    <script src="jquery.min.js"></script>
     <style>
       body {
-        min-width: 657px;
+        min-width: 64px;
         overflow-x: hidden;
       }
 
-      img {
-        margin: 5px;
-        border: 2px solid black;
-        vertical-align: middle;
-        width: 75px;
-        height: 75px;
+      input#stopBtn {
+        margin-left:auto;color:red;
+        margin-right:auto;
+        width:60px;
+        height:32px;
       }
     </style>
 
-    <!--
-      - JavaScript and HTML must be in separate files: see our Content Security
-      - Policy documentation[1] for details and explanation.
-      -
-      - [1]: http://developer.chrome.com/extensions/contentSecurityPolicy.html
-     -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="popup.js"></script>
   </head>
   <body>
+    <div style="text-align:center;" align="center">
+      <input style="margin-left:auto;margin-right:auto;" type="button" value="Stop" id="stopBtn" />
+    </div>
   </body>
 </html>
 
