@@ -1,3 +1,9 @@
-chrome.extension.sendMessage({"name" : "hola"}, function(res){
-     console.log(res); 
- });
+chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+    if (request.method == "getSelection") {
+        sendResponse({
+            "text": window.getSelection().toString(),
+            "url": window.location.toString(),
+            "title": document.title,
+        });
+    }
+});
