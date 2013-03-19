@@ -28,12 +28,7 @@ chrome.runtime.onInstalled.addListener(function() {
 
   // Create a parent item and two children.
   chrome.contextMenus.create({"title": "Talker", "id": "parent"});
-  /*chrome.contextMenus.create(
-      {"title": "Child 1", "parentId": "parent", "id": "child1"});
-  chrome.contextMenus.create(
-      {"title": "Child 2", "parentId": "parent", "id": "child2"});
-*/
-  // Create one test item for each context type.
+
   var contexts = ["page","link","editable","image","video",
                   "audio"];
   for (var i = 0; i < contexts.length; i++) {
@@ -42,10 +37,9 @@ chrome.runtime.onInstalled.addListener(function() {
     chrome.contextMenus.create({"title": title, "contexts":[context],
                                         "id": "context" + context,
                                         "parentId":"parent"});
-    console.log("'" + context + "' item:" + id);
+    console.log("'" + context + "' item:" + "context"+context);
   }
   chrome.contextMenus.create({"title": 'Speak Selection', "contexts":["selection"],
                               "id":"contextselection"});
-//  chrome.contextMenus.create({"title": chrome.i18n.getMessage("bookmark_current_page"), "contexts" : [ "page", "selection", "link", "editable", "image", "video", "audio" ], "onclick": ctxBookmarkCurrentPage});
-//  chrome.contextMenus.create({"title": chrome.i18n.getMessage("bookmark_link"), "contexts" : [ "link" ], "onclick": ctxBookmarkLink});
+
 });
