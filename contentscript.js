@@ -1,6 +1,6 @@
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
+chrome.extension.onMessage.addListener(function(request, sender, sendMessage) {
     if (request.method == "getSelection") {
-        sendResponse({
+        sendMessage({
             "text": window.getSelection().toString(),
             "url": window.location.toString(),
             "title": document.title,

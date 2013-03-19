@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function getSel() {
       function cb(note) { setupNoteForm(note, userdata); };
       chrome.tabs.getSelected(null, function (tab) {
-          chrome.tabs.sendRequest(tab.id, {"method": "getSelection"}, speak);
+          chrome.tabs.sendMessage(tab.id, {"method": "getSelection"}, speak);
       });
   }
 
